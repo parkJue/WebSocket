@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WebSocket Test</title>
+<link rel="stylesheet"  href="{% static 'css/output.css' %}" >
+<script>
+    const socket = new WebSocket("ws://127.0.0.1:8000/ws/time/");
+
+    socket.onopen = function() {
+        console.log("WebSocket 연결이 열렸습니다.");
+    };
+
+    socket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        document.getElementById("time").innerText = data.time;
+    };
+
+    socket.onclose = function() {
+        console.log("WebSocket 연결이 종료되었습니다.");
+    };
+</script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="text-center container mx-auto px-5">
+        <h1 class="font-TimeFont text-4xl font-bold mb-4">-- 대한민국 현재 시각 --</h1>
+        <div id="time" class="bg-blue-200 text-white px-16 py-5 text-2xl rounded-2xl">현재 시간은 ... </div>
+    </div>
+</body>
+</html>
